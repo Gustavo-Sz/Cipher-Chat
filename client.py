@@ -1,11 +1,11 @@
 import socket
 import threading
 from _thread import allocate_lock
-from crip import cryptography
+from cryp import cryptography
 import time
 from chatcmds import cmds
 
-ip = "192.168.1.15"
+ip = "IP"
 addr = (ip, port)
 port 9192
 
@@ -16,7 +16,7 @@ class Channel():
         self.my_publickey = cryptography.getfromfile()
         self.app_socket = client_socket
         self.destine = destine
-        self.cript = cryptography(target_key)
+        self.crypt = cryptography(target_key)
 
 
 def sendmsg(channel):
@@ -47,7 +47,7 @@ def sendmsg(channel):
             break
 
         else:
-            msgcipher = channel.cript.encryptmsg(msg.encode('utf-8'))
+            msgcipher = channel.crypt.encryptmsg(msg.encode('utf-8'))
             size = f"{len(msgcipher):<10}".encode('utf-8')
             full_msg = size + msgcipher
             channel.app_socket.send(full_msg)
@@ -71,7 +71,7 @@ def receive(channel):
             msgdestine = msgcontent[:int(sizeDestine.decode('utf-8'))]
             key = msgcontent.strip(msgdestine)  # KEY
             Lock.acquire()
-            channel.cript = cryptography(key)
+            channel.crypt = cryptography(key)
             Lock.release()
             Lock.acquire()
             channel.destine = msgdestine.decode('utf-8')
@@ -93,7 +93,7 @@ def receive(channel):
             client_socket.send(size + msg)
 
         else:
-            plaintext = channel.cript.decryptmsg(msgcontent)
+            plaintext = channel.crypt.decryptmsg(msgcontent)
             print(f"{channel.destine} : {plaintext}")
 
 
