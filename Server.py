@@ -5,7 +5,7 @@ from _thread import allocate_lock
 import time
 from chatcmds import cmds
 
-ip = "192.168.1.15"
+ip = "IP"
 port = 9192
 connections = 2
 addr = (ip, port)
